@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votação Instagram Terceirão</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .chart-container {
+            background: #2a2a40;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            /* Removi a altura fixa daqui para evitar o vazamento do fundo */
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
+
+        p {
+            text-align: center;
+            color: #aaaaaa;
+            margin-bottom: 20px;
+        }
+
+        /* --- NOVAS REGRAS PARA O SCROLL --- */
+        .scroll-wrapper {
+            height: 600px;
+            /* Altura máxima da janela do gráfico na sua tela */
+            overflow-y: auto;
+            /* Adiciona a rolagem vertical */
+            padding-right: 15px;
+            /* Espaço para a barra de rolagem não colar no gráfico */
+        }
+
+        .chart-wrapper {
+            height: 1500px;
+            /* Altura real do gráfico esticado para caber todas as 51 opções bem divididas */
+            position: relative;
+        }
+
+        /* Estilizando a barra de rolagem para combinar com o tema */
+        .scroll-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-track {
+            background: #1e1e2f;
+            border-radius: 4px;
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-thumb {
+            background: #ffcc00;
+            border-radius: 4px;
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #ff5722;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chart-container">
+        <h1>Votação: Nome Da Turma: Terceiro C</h1>
+
+        <div class="scroll-wrapper">
+            <div class="chart-wrapper">
+                <canvas id="meuGrafico"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados extraídos e ordenados por número de votos
+        const nomes = [
+            "Tercecrack", "Tercybau", "Tercechopp", "Tercerveja", "Tercecoma", "Tercecaipi", "Terçabor",
+            "Tercachaça", "Tercecraque", "Tercirrose", "Tercecaralho", "Tercechuca", "Tercecu",
+            "Tercemfreio", "Tercecachaça", "Tercechurras", "Tercc", "Tercecigma", "Tercecorote",
+            "Tercerol", "Tercecabare", "Terciroc", "Tercecudogui", "Tercecu,zinhodoguizinapertadincherozin",
+            "Tercelin", "Tercecoito", "Tercecoca", "Tercecoconha", "Terchuca", "Tercecoco", "Tercecampari",
+            "Tercecirrose", "Tercecarola", "Tercecafunga", "Terceiravezquefazessapiada", "Tercemeganauspmedicina",
+            "Tercecloroformio", "Tercecraqueneto", "Tercoice", "Tercoconha", "Tercechampagne", "Tercededada",
+            "Tercervejaria", "Tercecalaboca", "Terceaura", "Tercecarater", "Tercecrime", "Tercevejo",
+            "Tercerrorismo", "Terceciroc", "Tercenso"
+        ];
+
+        const votos = [
+            15, 14, 11, 11, 10, 10, 10, 9, 9, 9, 8, 7, 7, 7, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4, 3, 2, 2, 2, 2,
+            2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+        ];
+
+        const ctx = document.getElementById('meuGrafico').getContext('2d');
+        const meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: nomes,
+                datasets: [{
+                    label: 'Número de Votos',
+                    data: votos,
+                    backgroundColor: 'rgba(255, 204, 0, 0.7)',
+                    borderColor: 'rgba(255, 204, 0, 1)',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'rgba(255, 87, 34, 0.9)',
+                    hoverBorderColor: 'rgba(255, 87, 34, 1)'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 14 },
+                        padding: 10,
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.raw} votos`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#dddddd',
+                            stepSize: 1
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#dddddd',
+                            font: { size: 13 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
